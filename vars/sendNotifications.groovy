@@ -7,6 +7,7 @@ import hudson.scm.ChangeLogSet;
  * We support one non-standard string:
  *    ARCHIVE_FAILED
  */
+@NonCPS
 def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
