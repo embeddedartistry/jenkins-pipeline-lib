@@ -30,13 +30,15 @@ def call(String buildStatus = 'STARTED') {
   } else if (buildStatus == 'ARCHIVE_FAILED') {
     // Use default colors
     buildStatus = 'Archive failed'
-  } else if (buildStatus == 'FAILED') {
-    // Use default colors
-    buildStatus = 'Failed'
   }
 
+  def changes = getChangeString()
+
   // Slack
-  def slack_msg = "${env.JOB_NAME} #${env.BUILD_NUMBER}:\n${buildStatus} (<${env.BUILD_URL}|Open>)"
+  def slack_msg = "${env.JOB_NAME} #${env.BUILD_NUMBER}:\nStatus: ${buildStatus} (<${env.BUILD_URL}|Open>)\n
+    Changes:\n" + changes
+
+
   slackSend (color: colorCode, message: slack_msg)
 
   //Email
@@ -52,4 +54,26 @@ def call(String buildStatus = 'STARTED') {
       recipientProviders: [[$class: 'DevelopersRecipientProvider']]
     )
 */
+}
+
+@NonCPS
+def getChangeString() {
+  MAX_MSG_LEN = 100
+  def changeString = ""
+
+  echo "Gathering SCM changes"
+  def changeLogSets = currentBuild.changeSets
+  for (int i = 0; i < changeLogSets.size(); i++) {
+    def entries = changeLogSets[i].items
+    for (int j = 0; j < entries.length; j++) {
+      def entry = entries[j]
+      truncated_msg = entry.msg.take(MAX_MSG_LEN)
+      changeString += " - ${truncated_msg} [${entry.author}]\n"
+    }
+  }
+
+  if (!changeString) {
+    changeString = " - No new changes"
+  }
+  return changeString
 }
