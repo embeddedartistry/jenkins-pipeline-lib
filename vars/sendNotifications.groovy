@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+import hudson.scm.ChangeLogSet;
 
 /**
  * Send notifications based on build status string
@@ -6,13 +7,16 @@
  * We support one non-standard string:
  *    ARCHIVE_FAILED
  */
-def call(String buildStatus = 'STARTED') {
+def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
   // Default values
   def color = 'RED'
   def colorCode = '#E74C3C'
+
+  def changeString
+  def print_changes = false
 
   // Override default values based on build status
   if (buildStatus == 'STARTED') {
@@ -23,6 +27,7 @@ def call(String buildStatus = 'STARTED') {
     color = 'GREEN'
     colorCode = '#27AE60'
     buildStatus = 'Successful'
+    print_changes = true
   } else if (buildStatus == 'ABORTED') {
     color = 'GREY'
     colorCode = '#D7DBDD'
@@ -30,15 +35,17 @@ def call(String buildStatus = 'STARTED') {
   } else if (buildStatus == 'ARCHIVE_FAILED') {
     // Use default colors
     buildStatus = 'Archive failed'
+  } else if (buildStatus == 'FAILED') {
+    print_changes = true
   }
 
-  def changes = getChangeString()
+  if(print_changes)
+  {
+    changeString = "Changes:\n" + getChangeString(changeSet)
+  }
 
   // Slack
-  def slack_msg = "${env.JOB_NAME} #${env.BUILD_NUMBER}:\nStatus: ${buildStatus} (<${env.BUILD_URL}|Open>)\n
-    Changes:\n" + changes
-
-
+  def slack_msg = "${env.JOB_NAME} #${env.BUILD_NUMBER}:\nStatus: ${buildStatus} (<${env.BUILD_URL}|Open>)\n" + changeString
   slackSend (color: colorCode, message: slack_msg)
 
   //Email
@@ -57,12 +64,12 @@ def call(String buildStatus = 'STARTED') {
 }
 
 @NonCPS
-def getChangeString() {
+def getChangeString(List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeLogSets) {
   MAX_MSG_LEN = 100
   def changeString = ""
 
   echo "Gathering SCM changes"
-  def changeLogSets = currentBuild.changeSets
+
   for (int i = 0; i < changeLogSets.size(); i++) {
     def entries = changeLogSets[i].items
     for (int j = 0; j < entries.length; j++) {
