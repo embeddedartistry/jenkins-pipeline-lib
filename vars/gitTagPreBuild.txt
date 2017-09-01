@@ -1,5 +1,0 @@
-<strong>gitTagPreBuild(build)</strong>
-
-<p>
-    Create a temporary build tag that we'll use for our build process. The build system can use this tag to generate version information automatically.
-</p>

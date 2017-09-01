@@ -7,6 +7,8 @@ import hudson.scm.ChangeLogSet;
 * By using an annotated tag, we can populate the build version details from git
 */
 def call(String build) {
-  "git tag -a '${build}' -m 'Creating tag to build ${build}'".execute()
+  println 'Creating a temporary build tag for versioning'
+  def p = "git tag -a '${build}' -m 'Creating tag to build ${build}'".execute()
+  p.waitFor
 }
 
