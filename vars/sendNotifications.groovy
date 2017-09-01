@@ -17,7 +17,7 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
   def colorCode = '#E74C3C'
 
   def changeString
-  def print_changes = false
+  def printChanges = false
 
   // Override default values based on build status
   if (buildStatus == 'STARTED') {
@@ -28,7 +28,7 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
     color = 'GREEN'
     colorCode = '#27AE60'
     buildStatus = 'Successful'
-    print_changes = true
+    printChanges = true
   } else if (buildStatus == 'ABORTED') {
     color = 'GREY'
     colorCode = '#D7DBDD'
@@ -37,10 +37,10 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
     // Use default colors
     buildStatus = 'Archive failed'
   } else if (buildStatus == 'FAILED') {
-    print_changes = true
+    printChanges = true
   }
 
-  if(print_changes)
+  if(printChanges)
   {
     if(changeSet != null)
     {
@@ -49,8 +49,14 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
   }
 
   // Slack
-  def slack_msg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*" + changeString
-  slackSend (color: colorCode, message: slack_msg)
+  def slackMsg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*"
+
+  if(changeString)
+  {
+    slackMsg += changeString
+  }
+
+  slackSend (color: colorCode, message: slackMsg)
 
   //Email
   def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
