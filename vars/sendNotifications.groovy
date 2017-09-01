@@ -42,7 +42,7 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
 
   if(print_changes)
   {
-    if(changeSet != NULL)
+    if(changeSet != null)
     {
       changeString = "Changes:\n" + getChangeString(changeSet)
     }
