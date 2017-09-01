@@ -8,6 +8,7 @@ import hudson.scm.ChangeLogSet;
 */
 def call(String build) {
   println 'Creating a temporary build tag for versioning'
+  println "git tag -a '${build}' -m 'Creating tag to build ${build}'"
   def p = "git tag -a '${build}' -m 'Creating tag to build ${build}'".execute()
   p.waitFor()
 }
