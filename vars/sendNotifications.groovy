@@ -44,12 +44,12 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
   {
     if(changeSet != null)
     {
-      changeString = "Changes:\n" + getChangeString(changeSet)
+      changeString = "Change log:\n" + getChangeString(changeSet)
     }
   }
 
   // Slack
-  def slack_msg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>:\n*Status:* ${buildStatus} \n" + changeString
+  def slack_msg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}* \n" + changeString
   slackSend (color: colorCode, message: slack_msg)
 
   //Email
