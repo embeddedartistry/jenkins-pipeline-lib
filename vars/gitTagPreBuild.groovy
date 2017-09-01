@@ -11,5 +11,7 @@ def call(String build) {
   println "git tag -a '${build}' -m 'Creating tag to build ${build}'"
   def p = ["git", "tag", "-a", "'${build}'", "-m", "'Creating tag to build ${build}'"].execute()
   p.waitFor()
+  println "Exit value: ${p.exitValue()}"
+  println "Output: ${p.text}"
 }
 
