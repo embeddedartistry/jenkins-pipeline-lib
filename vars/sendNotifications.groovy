@@ -33,10 +33,16 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
     color = 'GREY'
     colorCode = '#D7DBDD'
     buildStatus = 'Aborted'
-  } else if (buildStatus == 'ARCHIVE_FAILED') {
+  } else if (buildStatus == 'ARCHIVE_ERROR') {
     // Use default colors
-    buildStatus = 'Archive failed'
-  } else if (buildStatus == 'FAILED') {
+    buildStatus = 'Archiving failed'
+  } else if (buildStatus == 'FAILURE') {
+    buildStatus = 'FAILED'
+    printChanges = true
+  } else if (buildStatus == 'UNSTABLE') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+    buildStatus = 'Unstable'
     printChanges = true
   }
 
