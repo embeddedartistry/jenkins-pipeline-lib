@@ -49,7 +49,7 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
   }
 
   // Slack
-  def slack_msg = "${env.JOB_NAME} #${env.BUILD_NUMBER}:\nStatus: ${buildStatus} (<${env.BUILD_URL}|Open>)\n" + changeString
+  def slack_msg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>:\n*Status:* ${buildStatus} \n" + changeString
   slackSend (color: colorCode, message: slack_msg)
 
   //Email
