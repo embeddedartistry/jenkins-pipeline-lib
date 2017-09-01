@@ -8,7 +8,7 @@ import hudson.scm.ChangeLogSet;
  *    ARCHIVE_FAILED
  */
 @NonCPS
-def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet) {
+def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet = null) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
@@ -42,7 +42,10 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
 
   if(print_changes)
   {
-    changeString = "Changes:\n" + getChangeString(changeSet)
+    if(changeSet != NULL)
+    {
+      changeString = "Changes:\n" + getChangeString(changeSet)
+    }
   }
 
   // Slack
@@ -76,7 +79,7 @@ def getChangeString(List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeLogSe
     for (int j = 0; j < entries.length; j++) {
       def entry = entries[j]
       truncated_msg = entry.msg.take(MAX_MSG_LEN)
-      changeString += " - ${truncated_msg} [${entry.author}]\n"
+      changeString += "`${entry.commitId}` ${truncated_msg} [${entry.author}]\n"
     }
   }
 
