@@ -1,0 +1,5 @@
+<strong>gitTagSuccess(build)</strong>
+
+<p>
+    Tag a successful build with the build number and push the tag to the server.
+</p>

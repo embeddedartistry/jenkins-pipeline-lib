@@ -1,0 +1,5 @@
+<strong>gitTagCleanup(build)</strong>
+
+<p>
+    Delete the temporary local tag that we created during the build process
+</p>
