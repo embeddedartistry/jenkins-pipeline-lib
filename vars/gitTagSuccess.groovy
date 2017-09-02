@@ -3,16 +3,8 @@
 /**
 * Create a successful build tag and push it to the server
 */
-@NonCPS
 def call(String build) {
-  println 'Tagging successful nightly build'
-  def p = "git tag -a '${build}' -m 'Successful nightly build ${build}'".execute()
-  p.text.eachLine {println it}
-  println p.exitValue()
-  p.waitFor()
-  println 'Pushing tags'
-  p = 'git push --tags'.execute()
-  p.text.eachLine {println it}
-  println p.exitValue()
-  p.waitFor()
+  echo('Tagging successful nightly build')
+  sh("git tag -a '${build}' -m 'Successful nightly build ${build}'")
+  sh("git push --tags")
 }
