@@ -2,11 +2,10 @@
 
 def call(String context, String message, String state) {
   // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
-  repoUrl = getRepoURL()
-  commitSha = getCommitSha()
+  repoUrl = gitRepoURL()
+  commitSha = gitCommitHash()
 
-  echo "Updating status for URL: $repoURL // commit: $commitSha // context: $context"
-
+  echo "Updating status for URL: $repoUrl // commit: $commitSha // context: $context"
 
   step([
     $class: 'GitHubCommitStatusSetter',
@@ -17,14 +16,4 @@ def call(String context, String message, String state) {
     statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "${BUILD_URL}"],
     statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ])
-}
-
-def getRepoURL() {
-  sh "git config --get remote.origin.url > .git/remote-url"
-  return readFile(".git/remote-url").trim()
-}
-
-def getCommitSha() {
-  sh "git rev-list --no-merges HEAD --max-count=1 > .git/current-commit"
-  return readFile(".git/current-commit").trim()
 }
