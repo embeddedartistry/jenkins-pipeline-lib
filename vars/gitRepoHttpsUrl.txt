@@ -1,0 +1,5 @@
+<strong>gitRepoHttpsUrl()</strong>
+
+<p>
+    Get the git remote URL from the repository. This converts "git@" strings to "https://" and removes ".git" from the end of the string.
+</p>

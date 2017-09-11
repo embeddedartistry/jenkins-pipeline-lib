@@ -1,0 +1,5 @@
+<strong>gitRepoURL()</strong>
+
+<p>
+    Get the git remote URL from the repository. This does no formatting and simply returns the stored value.
+</p>

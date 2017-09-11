@@ -1,0 +1,5 @@
+<strong>gitCommitHash</strong>
+
+<p>
+    Get the git commit hash of the current config. This function currently ignores merges to support pull request merge builds (merging target branch into the pull request branch to make sure it merges and builds cleanly). This may cause problems on builds with significant branching.
+</p> 

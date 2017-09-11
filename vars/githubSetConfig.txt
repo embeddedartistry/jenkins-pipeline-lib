@@ -1,0 +1,5 @@
+<strong>githubSetConfig(String credentialsID = 'github-oauth-token')</strong>
+
+<p>
+    Used for pipeline builds, which may not have a native "Github" plugin setup. This gets the Github URL, formatted as an HTTPS url, and registers it as a build propery. It also uses the credentials ID to register a new Plugin config.
+</p>

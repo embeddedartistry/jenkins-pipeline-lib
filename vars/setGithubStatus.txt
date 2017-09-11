@@ -1,0 +1,5 @@
+<strong>sendNotifications(String context, String message, String state)</strong>
+
+<p>
+    General API to support setting custom github statuses for builds.
+</p>

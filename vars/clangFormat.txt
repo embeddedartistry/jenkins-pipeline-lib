@@ -1,0 +1,7 @@
+<strong>clangFormat</strong>
+
+<p>
+    Runs a command 'make format-check' and verifies whether 'clang_format.patch' exists. If it does, the build is marked as a failure and the file is archived.
+
+This requires your underlying build system to support this command.
+</p> 

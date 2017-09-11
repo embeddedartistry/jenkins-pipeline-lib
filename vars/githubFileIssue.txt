@@ -1,0 +1,5 @@
+<strong>githubSetConfig(String title = null, String label = '')</strong>
+
+<p>
+    Files an issue to the configured Github repository. Title and label can be overriden to a custom value. Repeated failures will be appended to the existing issue.
+</p>

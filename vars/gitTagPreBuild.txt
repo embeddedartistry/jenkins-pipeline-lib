@@ -1,0 +1,5 @@
+<strong>gitTagPreBuild(build)</strong>
+
+<p>
+    Tag a build with the build number. This will be used by the underlying build system to get a version using `git describe`
+</p>

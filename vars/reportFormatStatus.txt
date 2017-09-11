@@ -1,0 +1,5 @@
+<strong>sendNotifications(success)</strong>
+
+<p>
+    Reports clang-format status to Github
+</p>
