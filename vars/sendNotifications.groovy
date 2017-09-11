@@ -62,7 +62,16 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
     slackMsg += changeString
   }
 
-  slackSend (color: colorCode, message: slackMsg)
+  // I put this in for cases where Slack doesn't work - let the build continue
+  try
+  {
+    slackSend (color: colorCode, message: slackMsg)
+  }
+  catch (error)
+  {
+    echo "Slack notification failed: $error"
+  }
+
 
   //Email
   def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
