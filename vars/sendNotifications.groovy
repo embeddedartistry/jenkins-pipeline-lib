@@ -7,7 +7,6 @@ import hudson.scm.ChangeLogSet;
  * We support one non-standard string:
  *    ARCHIVE_FAILED
  */
-@NonCPS
 def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet = null) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
@@ -50,7 +49,7 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
   {
     if(changeSet != null)
     {
-      changeString = "\n\nChange log:\n" + getChangeString(changeSet)
+      changeString = "\n\nChange log:\n" + gitChangeLog(changeSet)
     }
   }
 
@@ -72,7 +71,6 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
     echo "Slack notification failed: $error"
   }
 
-
   //Email
   def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
   def details = """<p>${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -86,27 +84,4 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
       recipientProviders: [[$class: 'DevelopersRecipientProvider']]
     )
 */
-}
-
-@NonCPS
-def getChangeString(List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeLogSets) {
-  MAX_MSG_LEN = 100
-  def changeString = ""
-
-  echo "Gathering SCM changes"
-
-  for (int i = 0; i < changeLogSets.size(); i++) {
-    def entries = changeLogSets[i].items
-    for (int j = 0; j < entries.length; j++) {
-      def entry = entries[j]
-      truncated_msg = entry.msg.take(MAX_MSG_LEN)
-      truncated_commit = entry.commitId.take(7)
-      changeString += "- `${truncated_commit}`: ${truncated_msg} [${entry.author}]\n"
-    }
-  }
-
-  if (!changeString) {
-    changeString = " - No new changes"
-  }
-  return changeString
 }
