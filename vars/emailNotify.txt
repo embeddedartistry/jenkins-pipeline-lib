@@ -1,0 +1,9 @@
+<strong>emailNotify(buildStatus='STARTED')</strong>
+
+<p>
+    Sends notifications via email.
+    Defaults the sending "Started" notification.
+    Pass the build status string and customize the notifications based on status.
+
+    If you don't supply a change set string, the plugin will look for a GIT_CHANGE_LOG environment variable, which can be supplied in your environment step via gitChangeLog()
+</p>

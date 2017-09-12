@@ -1,4 +1,4 @@
-<strong>sendNotifications(buildStatus='STARTED')</strong>
+<strong>slackNotify(buildStatus='STARTED')</strong>
 
 <p>
     Sends notifications via Slack and email.

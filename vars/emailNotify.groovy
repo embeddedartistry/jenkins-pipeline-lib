@@ -59,27 +59,14 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
     }
   }
 
-  // I put this in for cases where Slack doesn't work - let the build continue
-  try
-  {
-    slackSend (color: colorCode, message: "Test message")
-  }
-  catch (error)
-  {
-    echo "Slack notification failed: $error"
-  }
-
   //Email
-  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-  def details = """<p>${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+  def subject = "${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+  def details = """<p>${buildStatus}: Job '${env.JOB_NAME} #${env.BUILD_NUMBER}':</p>
     <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
 
-/* TODO
   emailext (
-      to: 'bitwiseman@bitwiseman.com',
       subject: subject,
       body: details,
-      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+      recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']]
     )
-*/
 }
