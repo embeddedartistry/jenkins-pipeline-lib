@@ -7,35 +7,42 @@
 * User to rely on their own template on the Jenkins master configuration page.
 */
 
-def call(String title = null, String status = 'failed')
+def call(String title = null, Boolean useDefaultBody = false, String changeString = null)
 {
-  echo 'Filing GitHub issue with build status: $status'
+  echo "Filing GitHub issue for ${env.JOB_NAME}"
 
   if(title == null)
   {
-    title = "${env.JOB_NAME}: #${env.BUILD_NUMBER} ${status}"
+    title = "${env.JOB_NAME}: #${env.BUILD_NUMBER} Failed"
   }
 
-  step([$class: 'GitHubIssueNotifier',
-        issueAppend: true,
-        issueLabel: '',
-        issueTitle: "$title"])
+  if(useDefaultBody)
+  {
+    step([$class: 'GitHubIssueNotifier',
+      issueAppend: true,
+      issueLabel: '',
+      issueTitle: "$title"])
+  }
+  else
+  {
+    // Default to environment
+    String changes = "${env.GIT_CHANGE_LOG}"
+
+    if(changeString)
+    {
+      //Override if the user supplied one
+      changes = changeString
+    }
+
+    String build_log = getBuildLog()
+    String body = "Build `${env.JOB_NAME}` #${env.BUILD_NUMBER} Failed\n\n[View full output](${env.BUILD_URL})\n\n**Change log:**\n${changes}\n\n${build_log}"
+
+    step([$class: 'GitHubIssueNotifier',
+      issueAppend: true,
+      issueLabel: '',
+      issueTitle: "$title",
+      issueBody: "$body"])
+  }
 
   echo 'Github issue published successfully'
 }
-
-/* TODO: allow overriding issue body
-issueBody: '''
-    Build \'$JOB_NAME\' has failed!
-
-    Last 50 lines of output:
-
-    ```
-    ${OUTPUT, lines=50}
-    ```
-
-    [View full output]($BUILD_URL)''',
-    issueLabel: 'Urgency-High',
-    issueRepo: '<a repo>',
-    issueTitle: '$JOB_NAME $BUILD_DISPLAY_NAME failed'])
-*/

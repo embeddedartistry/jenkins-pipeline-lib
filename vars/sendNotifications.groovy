@@ -7,15 +7,13 @@ import hudson.scm.ChangeLogSet;
  * We support one non-standard string:
  *    ARCHIVE_FAILED
  */
-def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet = null) {
+def call(String buildStatus = 'STARTED', String changeString = null) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
   // Default values
   def color = 'RED'
   def colorCode = '#E74C3C'
-
-  def changeString
   def printChanges = false
 
   // Override default values based on build status
@@ -45,26 +43,26 @@ def call(String buildStatus = 'STARTED', List<ChangeLogSet<? extends ChangeLogSe
     printChanges = true
   }
 
+  // Slack
+  String slackMsg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*"
+
   if(printChanges)
   {
-    if(changeSet != null)
+    if(changeString)
     {
-      changeString = "\n\nChange log:\n" + gitChangeLog(changeSet)
+      slackMsg += changeString
     }
-  }
-
-  // Slack
-  def slackMsg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*"
-
-  if(changeString)
-  {
-    slackMsg += changeString
+    else
+    {
+      // Default behavior is to check for a GIT_CHANGE_LOG environment variable
+      slackMsg += "${env.GIT_CHANGE_LOG}"
+    }
   }
 
   // I put this in for cases where Slack doesn't work - let the build continue
   try
   {
-    slackSend (color: colorCode, message: slackMsg)
+    slackSend (color: colorCode, message: "Test message")
   }
   catch (error)
   {
