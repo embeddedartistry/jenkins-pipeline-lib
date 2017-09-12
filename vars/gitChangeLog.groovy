@@ -11,8 +11,6 @@ def call(List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet = null)
 
   if(!changeString)
   {
-	echo "Gathering SCM changes"
-
 	for (int i = 0; i < changeSet.size(); i++)
 	{
 		def entries = changeSet[i].items
