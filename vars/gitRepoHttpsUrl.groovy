@@ -8,6 +8,7 @@ def call()
   if(url.startsWith('git@'))
   {
   	url = url - 'git@'
+    url = url.replaceAll(':','/')
   	url = 'https://' + url
   }
 
