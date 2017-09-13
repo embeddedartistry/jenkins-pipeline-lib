@@ -44,7 +44,7 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
   }
 
   // Slack
-  String slackMsg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*"
+  String slackMsg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*\n"
 
   if(printChanges)
   {
@@ -55,7 +55,7 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
     else
     {
       // Default behavior is to check for a GIT_CHANGE_LOG environment variable
-      slackMsg += "${env.GIT_CHANGE_LOG}"
+      slackMsg += "Changes:\n${env.GIT_CHANGE_LOG}"
     }
   }
 
