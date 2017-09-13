@@ -9,26 +9,17 @@ import hudson.scm.ChangeLogSet;
  */
 def call(String buildStatus = 'STARTED', String changeString = null) {
   // build status of null means successful
-  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+  buildStatus =  buildStatus ?: 'SUCCESS'
 
-  // Default values
-  def color = 'RED'
-  def colorCode = '#E74C3C'
   def printChanges = false
 
   // Override default values based on build status
   if (buildStatus == 'STARTED') {
-    color = 'YELLOW'
-    colorCode = '#FFFF00'
     buildStatus = 'Started'
-  } else if (buildStatus == 'SUCCESSFUL') {
-    color = 'GREEN'
-    colorCode = '#27AE60'
+  } else if (buildStatus == 'SUCCESS') {
     buildStatus = 'Successful'
     printChanges = true
   } else if (buildStatus == 'ABORTED') {
-    color = 'GREY'
-    colorCode = '#D7DBDD'
     buildStatus = 'Aborted'
   } else if (buildStatus == 'ARCHIVE_ERROR') {
     // Use default colors
@@ -37,26 +28,8 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
     buildStatus = 'FAILED'
     printChanges = true
   } else if (buildStatus == 'UNSTABLE') {
-    color = 'YELLOW'
-    colorCode = '#FFFF00'
     buildStatus = 'Unstable'
     printChanges = true
-  }
-
-  // Slack
-  String slackMsg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*"
-
-  if(printChanges)
-  {
-    if(changeString)
-    {
-      slackMsg += changeString
-    }
-    else
-    {
-      // Default behavior is to check for a GIT_CHANGE_LOG environment variable
-      slackMsg += "${env.GIT_CHANGE_LOG}"
-    }
   }
 
   //Email
