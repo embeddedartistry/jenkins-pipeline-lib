@@ -9,7 +9,7 @@ import hudson.scm.ChangeLogSet;
  */
 def call(String buildStatus = 'STARTED', String changeString = null) {
   // build status of null means successful
-  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+  buildStatus =  buildStatus ?: 'SUCCESS'
 
   // Default values
   def color = 'RED'
@@ -21,7 +21,7 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
     color = 'YELLOW'
     colorCode = '#FFFF00'
     buildStatus = 'Started'
-  } else if (buildStatus == 'SUCCESSFUL') {
+  } else if (buildStatus == 'SUCCESS') {
     color = 'GREEN'
     colorCode = '#27AE60'
     buildStatus = 'Successful'
