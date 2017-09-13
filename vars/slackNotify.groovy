@@ -62,7 +62,7 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
   // I put this in for cases where Slack doesn't work - let the build continue
   try
   {
-    slackSend (color: colorCode, message: "Test message")
+    slackSend (color: colorCode, message: slackMsg)
   }
   catch (error)
   {
