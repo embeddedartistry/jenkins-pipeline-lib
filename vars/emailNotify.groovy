@@ -52,9 +52,16 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
 
   details += getBuildLog(75, true)
 
+  // Adjust setting so we can send emails to github users
+  def currentVal = RecipientProviderUtilities.SEND_TO_UNKNOWN_USERS
+  RecipientProviderUtilities.SEND_TO_UNKNOWN_USERS  = true
+
   emailext (
       subject: subject,
       body: details,
       recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']]
     )
+
+  //Restore setting
+  RecipientProviderUtilities.SEND_TO_UNKNOWN_USERS = currentVal
 }
