@@ -33,9 +33,24 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
   }
 
   //Email
-  def subject = "${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-  def details = """<p>${buildStatus}: Job '${env.JOB_NAME} #${env.BUILD_NUMBER}':</p>
-    <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
+  String subject = "${env.JOB_NAME} #${env.BUILD_NUMBER} <b>${buildStatus}</b>"
+  String details = """<p>${buildStatus}: Job '${env.JOB_NAME} #${env.BUILD_NUMBER}':</p>
+    <p>See full console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
+
+  if(printChanges)
+  {
+    if(changeString)
+    {
+      details += "<p>Changes:<br>${changeString}</p>"
+    }
+    else
+    {
+      // Default behavior is to check for a GIT_CHANGE_LOG environment variable
+      details += "<pr>Changes:<br>${env.GIT_CHANGE_LOG}</p>"
+    }
+  }
+
+  details += getBuildLog(75, true)
 
   emailext (
       subject: subject,
