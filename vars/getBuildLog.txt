@@ -1,5 +1,7 @@
-<strong>getBuildLog(lines = 50)</strong>
+<strong>getBuildLog(int lines = 75, Boolean useHTML = false)</strong>
 
 <p>
     Calls currentBuild.rawBuild.getLines(lines) to generate an output string with the last $lines of the log.
+
+    By default, the output block is wrapped in a markdown preformatted block (```). If useHTML is set to true, a <pre> block will be generated instead and <br> used instead of \n
 </p> 
