@@ -44,7 +44,9 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
   }
 
   // Slack
-  String slackMsg = "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: *${buildStatus}*\n"
+  string jobNameSafe = "${env.JOB_NAME}"
+  jobNameSafe = jobNameSafe.replaceAll("%2F", "/")
+  String slackMsg = "<${env.BUILD_URL}|${jobNameSafe} #${env.BUILD_NUMBER}>: *${buildStatus}*\n"
 
   if(printChanges)
   {
