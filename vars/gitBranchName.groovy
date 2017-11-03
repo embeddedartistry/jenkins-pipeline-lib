@@ -7,10 +7,9 @@ def call(Boolean safe = false) {
 
   if(safe)
   {
-  	branch = branch.replaceFirst('/', '-')
+  	branch = branch.replace('\/', '-')
+  	branch = branch.replace('\\', '-')
   }
-
-  echo "Git branch: ${branch}"
 
   return branch
 }
