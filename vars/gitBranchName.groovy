@@ -7,8 +7,8 @@ def call(Boolean safe = false) {
 
   if(safe)
   {
-  	branch = branch.replace('\/', '-')
-  	branch = branch.replace('\\', '-')
+  	branch = branch.replaceAll("/", "-")
+  	branch = branch.replaceAll("\\", "-")
   }
 
   return branch
