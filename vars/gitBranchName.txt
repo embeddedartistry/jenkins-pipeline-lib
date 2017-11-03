@@ -1,0 +1,5 @@
+<strong>gitBranchname(Boolean safe = false)</strong>
+
+<p>
+    Get the git branch name for this build. If "safe" is true, slashes will be converted to dashes.
+</p>
