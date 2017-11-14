@@ -1,0 +1,8 @@
+<strong>didLastBuildSucceed(unstableIsSuccessful = true)</strong>
+
+<p>
+    Indicates whether the previous build was successful or not. If there is no previous build information, we assume failure.
+
+    Returns True if previous build result exists and is SUCCESS or UNSTABLE (unless unstableIsSuccessful is set to false)
+    False otherwise
+</p>
