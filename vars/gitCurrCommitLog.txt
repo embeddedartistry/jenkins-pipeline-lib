@@ -1,0 +1,5 @@
+<strong>gitCurrCommitLog()</strong>
+
+<p>
+    Provides a log string with the current commit hash and corresponding (truncated) commit message
+</p>
