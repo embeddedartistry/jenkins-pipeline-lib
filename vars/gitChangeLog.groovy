@@ -5,7 +5,7 @@ import groovy.transform.Field
 @Field String changeString = ""
 
 @NonCPS
-def call(List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet = null)
+def call(List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet = null, Boolean noLogWhenEmpty = false)
 {
   MAX_MSG_LEN = 100
 
@@ -23,9 +23,9 @@ def call(List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeSet = null)
 		}
 	}
 
-	if (!changeString)
+	if (!changeString && !noLogWhenEmpty)
 	{
-		changeString = " - No new changes"
+		changeString = " - No new changes.\n"
 	}
   }
 
