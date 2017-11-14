@@ -50,16 +50,32 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
 
   if(printChanges)
   {
-    if(changeString)
+    if("${env.BUILD_NUMBER}" == "1")
+    {
+      slackMsg += "First Build: " + gitCurrCommitLog() + "\n"
+    }
+    else if(changeString)
     {
       slackMsg += changeString
+    }
+    else if("${env.GIT_CHANGE_LOG}".contains("No new changes"))
+    {
+      // Check if change log is set to "No new changes" - populate with curr build
+      slackMsg += "${env.GIT_CHANGE_LOG}\nBuilt commit: " + gitCurrCommitLog() + "\n"
     }
     else if("${env.GIT_CHANGE_LOG}" != "null")
     {
       // Default behavior is to check for a GIT_CHANGE_LOG environment variable
       slackMsg += "Changes:\n${env.GIT_CHANGE_LOG}"
     }
+    else
+    {
+      // Empty change string: supply current commit
+      slackMsg += "Built commit: " + gitCurrCommitLog() + "\n"
+    }
   }
+
+  echo("Sendign slack message: ${slackMsg}")
 
   // I put this in for cases where Slack doesn't work - let the build continue
   try
