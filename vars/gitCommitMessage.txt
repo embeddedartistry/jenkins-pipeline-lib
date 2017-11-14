@@ -1,0 +1,5 @@
+<strong>gitCommitMessage(String hash, int truncate = 0)</strong>
+
+<p>
+    Get the git commit message for the specified commit hash. If truncate is set to a non-zero value, the commit message will be truncated to the requested length.
+</p>
