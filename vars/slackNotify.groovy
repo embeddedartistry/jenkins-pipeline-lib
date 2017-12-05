@@ -75,7 +75,7 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
     }
   }
 
-  echo("Sendign slack message: ${slackMsg}")
+  echo("Sending slack message: ${slackMsg}")
 
   // I put this in for cases where Slack doesn't work - let the build continue
   try
