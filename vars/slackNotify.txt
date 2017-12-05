@@ -1,9 +1,11 @@
-<strong>slackNotify(buildStatus='STARTED')</strong>
+<strong>slackNotify(String buildStatus = 'STARTED', String changeString = null, Boolean blueOcean = true)</strong>
 
 <p>
     Sends notifications via Slack and email.
-    Defaults the sending "Started" notification.
-    Pass the build status string and customize the notifications based on status.
 
-    If you don't supply a change set string, the plugin will look for a GIT_CHANGE_LOG environment variable, which can be supplied in your environment step via gitChangeLog()
+    Defaults to sending a "Started" notification if no status is supplied.
+
+    If you don't supply a change set string, the plugin will look for a GIT_CHANGE_LOG environment variable, which can be supplied in your environment step via gitChangeLog(). This is done by default and only needs to be overriden if you want a custom change string.
+
+    blueOcean controls whether the blueOcean URL or the default Jenkins URL will be supplied.
 </p>

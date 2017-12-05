@@ -1,9 +1,16 @@
 #!/usr/bin/env groovy
 
-def call(String context, String message, String state) {
+def call(String context, String message, String state, Boolean blueOcean = true) {
   // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
   repoUrl = gitRepoURL()
   commitSha = gitCommitHash()
+
+  String buildResultUrl = "${env.BUILD_URL}"
+
+  if(blueOcean)
+  {
+    buildResultUrl = "${env.RUN_DISPLAY_URL}"
+  }
 
   echo "Updating status for URL: $repoUrl // commit: $commitSha // context: $context"
 

@@ -7,7 +7,7 @@ import hudson.scm.ChangeLogSet;
  * We support one non-standard string:
  *    ARCHIVE_FAILED
  */
-def call(String buildStatus = 'STARTED', String changeString = null) {
+def call(String buildStatus = 'STARTED', String changeString = null, Boolean blueOcean = true) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESS'
 
@@ -43,10 +43,17 @@ def call(String buildStatus = 'STARTED', String changeString = null) {
     printChanges = true
   }
 
+  String buildResultUrl = "${env.BUILD_URL}"
+
+  if(blueOcean)
+  {
+    buildResultUrl = "${RUN_DISPLAY_URL}"
+  }
+
   // Slack
   string jobNameSafe = "${env.JOB_NAME}"
   jobNameSafe = jobNameSafe.replaceAll("%2F", "/")
-  String slackMsg = "<${env.BUILD_URL}|${jobNameSafe} #${env.BUILD_NUMBER}>: *${buildStatus}*\n"
+  String slackMsg = "<${buildResultUrl}|${jobNameSafe} #${env.BUILD_NUMBER}>: *${buildStatus}*\n"
 
   if(printChanges)
   {

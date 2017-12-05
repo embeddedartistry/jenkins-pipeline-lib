@@ -1,5 +1,10 @@
-<strong>sendNotifications(String context, String message, String state)</strong>
+<strong>sendNotifications(String context, String message, String state, Boolean blueOcean = true)</strong>
 
 <p>
     General API to support setting custom github statuses for builds.
+
+    Context indicates what the "status" string will be on GitHub (e.g. ci/jenkins/build)
+    state represents the GitHub API state
+
+    blueOcean controls whether the blueOcean URL or the default Jenkins URL will be supplied
 </p>
