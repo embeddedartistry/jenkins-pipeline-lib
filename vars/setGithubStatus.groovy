@@ -20,7 +20,7 @@ def call(String context, String message, String state, Boolean blueOcean = true)
     commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
     errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
     contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
-    statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "${BUILD_URL}"],
+    statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "${buildResultUrl}"],
     statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ])
 }
