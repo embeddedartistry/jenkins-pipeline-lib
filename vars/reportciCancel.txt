@@ -1,0 +1,18 @@
+<strong>reportciCancel()</strong>
+
+<p>
+Cancel the report CI job. Requires REPORT_CI_TOKEN environment variable to be set. A job must have been started with reportciNotify().
+</p>
+
+<code>
+post
+{
+ 	aborted
+	{
+	  echo "Build manually aborted on Jenkins"
+	  slackNotify('ABORTED')
+	  setGithubStatus('continuous-integration/jenkins/libmemory', 'libmemory CI Build Aborted', 'ERROR')
+	  reportciCancel()
+	}
+}
+</code>

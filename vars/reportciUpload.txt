@@ -1,0 +1,35 @@
+<strong>reportciUpload(String include, String framework)</strong>
+
+<p>
+Upload test results to report CI. Requires REPORT_CI_TOKEN environment variable to be set. A job must have been started with reportciNotify().
+</p>
+
+<p>
+framework is a string which indicates the framework to use (e.g., 'cmocka'). NULL input uses auto-detection.
+</p>
+
+<p>
+include is a string which maps to the location of the test results (e.g., 'buildresults/test/*.xml').
+</p>
+
+<code>
+stage('Test')
+{
+  steps
+  {
+    sh 'make test'
+  }
+  post
+  {
+    always
+    {
+      // Report Tests to Jenkins
+      junit 'buildresults/test/*.xml'
+
+      // Report Tests to Report CI
+      reportciUpload('cmocka', 'buildresults/test/*.xml')
+
+    }
+  }
+}
+</code>

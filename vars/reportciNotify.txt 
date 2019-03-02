@@ -1,0 +1,16 @@
+<strong>reportciNotify(String name)</strong>
+
+<p>
+Start a Report CI session. Name is a string for the build name that will be placed in the Report.CI status check (e.g. "Libmemory CI Build"). Requires REPORT_CI_TOKEN environment variable to be set.
+</p>
+
+<code>
+stage('Setup')
+{
+  steps
+  {
+    setGithubStatus('continuous-integration/jenkins/libmemory', 'libmemory CI Build Started', 'PENDING')
+    reportciNotify("libmemory CI Build")
+  }
+}
+</code>
