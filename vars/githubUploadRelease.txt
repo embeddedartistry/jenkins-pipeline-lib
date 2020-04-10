@@ -1,0 +1,9 @@
+<strong>githubUploadRelease(String tag, String artifactPattern)</strong>
+
+<p>
+    Uploads a release to GitHub. You must specify a tag for the release, and an artifactPattern string for artifacts to upload. Releases will be marked as "pre-release" by default.
+
+    Note that a tag is created during the release process. Remove any tag reaction steps from the build when using this.
+
+    This function requires the <a href="https://github.com/embeddedartistry/github-release-helper-plugin">embeddedartistry/github-release-helper-plugin</a>.
+</p>0
