@@ -8,7 +8,7 @@ def call(String tag, String artifactPattern)
   echo "Creating a release for repo $url with tag $tag"
   githubRelease(
     releaseTag: "$tag",
-    repoURL: 'git@github.com:embeddedartistry/ariadne-bootloader.git',
+    repoURL: "$url",
     commitish: gitCommitHash(),
     releaseName: "Release $tag",
     releaseBody: "Release $tag uploaded by the Embedded Artistry Jenkins server.",
