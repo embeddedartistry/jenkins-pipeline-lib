@@ -1,0 +1,8 @@
+<strong>setNextBuildNumber(number)</strong>
+
+<p>
+    Set the number for the next Jenkins build to the specified value. Note that you are subject to normal Jenkins build numbering rules.
+</p>
+<p>
+    You will need to run a job with this function once, which will fail. Then go to Manage Jenkins -> In Process Script Approvals and approve this script.
+</p>
