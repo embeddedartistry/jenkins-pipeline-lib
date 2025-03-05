@@ -2,8 +2,8 @@
 
 def call(String context, String message, String state, Boolean blueOcean = true) {
   // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
-  repoUrl = gitRepoURL()
-  commitSha = gitCommitHash()
+  def repoUrl = gitRepoURL()
+  def commitSha = gitCommitHash()
 
   String buildResultUrl = "${env.BUILD_URL}"
 
